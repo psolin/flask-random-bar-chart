@@ -1,44 +1,35 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from random import randint
 import time
+import json
 
 app = Flask(__name__)
 
-def wave(max_line):
+@app.route("/data")
+def chart_data(data=None):
 
-	# The min/max size of the lines
-	size = randint(3,max_line)
+	data_set = []
 
-	line = []
+	for x in range(0,12):
+		y = randint(1, 12)
+		data_set.append(y)
 
-	# Line beginning
-	for i in range(0,size):
-		line.append(('=' * i) + ('=' * i))
+	data = {}
 
-	# Line Middle
-	line.append(('=' * (size+size)))
+	data['set'] = data_set
 
-	# Wave ending
-	for i in range(0,size):
-		size -= 1
-		line.append(('=' * size) + ('=' * size))
+	js = json.dumps(data)
 
-	line.append('=')
+	resp = Response(js, status=200, mimetype='application/json')
 
-	return line
+	return resp
 
 @app.route("/")
 def hello(data=None):
 
 	data = {}
 
-	data['wave'] = []
-
-	for index in range(0,150):
-		for item in wave(randint(5,20)):
-			data['wave'].append(item)
-
-	data['title'] = 'This Is The Wave'
+	data['title'] = 'Chart'
 
 	return render_template('index.html', data=data)
 

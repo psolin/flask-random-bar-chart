@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name='viewport' content='content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0' />
+    <meta name='viewport' content='width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0' />
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -25,12 +25,8 @@
         <br />
       </div>
       <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6 ">
-          {% for current in data.wave %}
-        <p>
-          {{ current }}
-        </p>
-          {% endfor %}
+        <div class="col-xs-11 col-sm-12 col-md-12 col-lg-10" id="canvas_holder">
+          <canvas id="canvas" height="100%" width="100%"></canvas>
         </div>
       </div>
       <br />
@@ -48,6 +44,46 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/auto_scroll.js"></script>
+    <script src="static/js/chart/Chart.min.js"></script>
+    <script type="text/javascript">
+
+    // This is the speed in which the loop occurs
+    loopSpeed = 5000
+
+    // Every loopSpeed milliseconds, get API data (randomized with Python)
+    // Then draw a bar graph with the data.
+
+
+      $.get( "/data", function( data ) {
+          drawChart(data.set)
+        });
+
+    
+    function drawChart(set) {
+
+      var data = {
+          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [
+              {
+                  label: "Random Months",
+                  fillColor: "rgba(220,220,220,0.5)",
+                  strokeColor: "rgba(220,220,220,0.8)",
+                  highlightFill: "rgba(220,220,220,0.75)",
+                  highlightStroke: "rgba(220,220,220,1)",
+                  data: set
+              }
+          ]
+      };
+
+      var ctx = document.getElementById("canvas").getContext("2d");
+      
+      new Chart(ctx).Bar(data, {
+          responsive : true
+      });
+
+
+    }
+
+    </script>
   </body>
 </html>

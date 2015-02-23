@@ -1,10 +1,10 @@
-#flask-wave
+#Flask Random Bar Chart
 
-An auto-scrolling auto-generated wave built with flask.
+flask-driven chart.js bar chart.
 
 ##Info
 
-That's about it, really.
+A Python function randomly picks a set of numbers from 1-15 for each month of the year.  It pushes the set to a Restful API located at '/data'.  The front of the site puts in a jQuery GET request to this page, then displays a bar chart using chart.js.
 
 ##Feedback
 
