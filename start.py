@@ -4,6 +4,7 @@ import json
 
 app = Flask(__name__)
 
+
 @app.route("/data")
 def chart_data():
     # Generate a dataset with 12 random integers
@@ -15,11 +16,13 @@ def chart_data():
 
     return response
 
+
 @app.route("/")
 def hello():
     # Render the index template with a title
     data = {'title': 'Chart'}
     return render_template('index.html', data=data)
+
 
 if __name__ == "__main__":
     # Run the app in debug mode
