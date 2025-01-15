@@ -4,30 +4,23 @@ import json
 
 app = Flask(__name__)
 
-
 @app.route("/data")
 def chart_data():
-    data_set = []
+    # Generate a dataset with 12 random integers
+    data_set = [randint(1, 12) for _ in range(12)]
 
-    for x in range(0, 12):
-        y = randint(1, 12)
-        data_set.append(y)
-
+    # Prepare the response
     data = {'set': data_set}
+    response = Response(json.dumps(data), status=200, mimetype='application/json')
 
-    js = json.dumps(data)
-
-    resp = Response(js, status=200, mimetype='application/json')
-
-    return resp
-
+    return response
 
 @app.route("/")
 def hello():
+    # Render the index template with a title
     data = {'title': 'Chart'}
-
     return render_template('index.html', data=data)
 
-
 if __name__ == "__main__":
+    # Run the app in debug mode
     app.run(debug=True)
